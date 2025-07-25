@@ -1,7 +1,7 @@
-using ContactControl.Data;
 using ContactControl.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Microsoft.EntityFrameworkCore; // Este using é necessário para UseSqlServer
+// using Microsoft.EntityFrameworkCore.Infrastructure; // Não é estritamente necessário para este cenário
+// using Pomelo.EntityFrameworkCore.MySql.Infrastructure; // REMOVA ESTE USING
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,10 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IContactRepositories, ContactRepositories>();
 
+// Configuração do DbContext para SQL Server - SIMPLIFICADA E CORRETA
 builder.Services.AddDbContext<BancoContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
-    new MySqlServerVersion(new Version(8, 0, 36))) 
-);
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
+// A chamada .AddEntityFrameworkSqlServer() foi removida daqui
+// pois AddDbContext já cuida da injeção do provedor.
 
 
 var app = builder.Build();

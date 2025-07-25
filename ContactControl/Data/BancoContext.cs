@@ -1,17 +1,12 @@
-﻿
+﻿using Microsoft.EntityFrameworkCore;
+using ContactControl.Models; 
 
-using ContactControl.Models;
-using Microsoft.EntityFrameworkCore;
-
-namespace ContactControl.Data
+public class BancoContext : DbContext
 {
-    public class BancoContext : DbContext
+    public BancoContext(DbContextOptions<BancoContext> options) : base(options)
     {
-        public DbSet<ContactModel> Contacts { get; set; }
-
-        public BancoContext(DbContextOptions<BancoContext> options) : base(options)
-        {
-            
-        }
     }
+
+    public DbSet<ContactModel> Contacts { get; set; }
+    
 }

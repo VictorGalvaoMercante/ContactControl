@@ -14,6 +14,7 @@ namespace ContactControl.Controllers
 
         public IActionResult Index()
         {
+            List<ContactModel> listContactMdodel =_contactRepositories.SearchAll();
             return View();
         }
         public IActionResult Create()
@@ -32,14 +33,31 @@ namespace ContactControl.Controllers
         {
             return View();
         }
-
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Create(ContactModel contact)
         {
-            _contactRepositories.Add(contact);
-            return RedirectToAction("Index");
-
+            if (ModelState.IsValid) // Verifica se as validações do modelo foram atendidas
+            {
+                try
+                {
+                    _contactRepositories.Add(contact);
+                    TempData["MensagemSucesso"] = "Contato adicionado com sucesso!";
+                    return RedirectToAction("Index"); // Redireciona para uma lista de contatos, por exemplo
+                }
+                catch (ArgumentException ex) // Captura a exceção de validação personalizada
+                {
+                    ModelState.AddModelError("", ex.Message);
+                }
+                catch (Exception ex) // Captura outras exceções (ex: DbUpdateException)
+                {
+                    ModelState.AddModelError("", "Ocorreu um erro ao salvar o contato: " + ex.Message);
+                }
+            }
+            // Se o modelo não for válido ou ocorreu um erro, retorna a View com o modelo para exibir mensagens de erro
+            return View(contact);
         }
+
+       
+      
     }
 }

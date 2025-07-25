@@ -1,14 +1,15 @@
-﻿
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace ContactControl.Models
+public class ContactModel
 {
-    public class ContactModel 
-    {
+    public int Id { get; set; }
 
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; } = "galvaomercante@gmail.com";
-        public string Phone { get; set; }
-  
-    }
+    [Required(ErrorMessage = "O nome é obrigatório.")]
+    public string Name { get; set; }
+
+    [Required(ErrorMessage = "O e-mail é obrigatório.")]
+    [EmailAddress(ErrorMessage = "Formato de e-mail inválido.")]
+    public string Email { get; set; }
+
+    public string Phone { get; set; }
 }
