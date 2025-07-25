@@ -1,9 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ContactControl.Models;
+using ContactControl.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ContactControl.Controllers
 {
     public class ContactController : Controller
     {
+        private readonly IContactRepositories _contactRepositories;
+        public ContactController(IContactRepositories contactRepositories) 
+        {
+            _contactRepositories = contactRepositories;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -23,6 +31,15 @@ namespace ContactControl.Controllers
         public IActionResult DeleteConfirmation()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(ContactModel contact)
+        {
+            _contactRepositories.Add(contact);
+            return RedirectToAction("Index");
+
         }
     }
 }

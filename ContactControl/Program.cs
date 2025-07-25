@@ -1,4 +1,5 @@
 using ContactControl.Data;
+using ContactControl.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
@@ -6,10 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IContactRepositories, ContactRepositories>();
 
 builder.Services.AddDbContext<BancoContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
-    new MySqlServerVersion(new Version(8, 0, 36))) // Troque pela sua versão do MySQL se diferente
+    new MySqlServerVersion(new Version(8, 0, 36))) 
 );
 
 

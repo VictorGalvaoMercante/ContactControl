@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ContactModel
+@{
     ViewData["Title"] = "Register Contact";
 }
 
@@ -6,17 +7,17 @@
 
     <h1 class="display-4 text-center">@ViewData["Title"]</h1>
 
-    <form>
+    <form asp-controller="Contact" asp-action="Create" method="post">
         <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
+            <label for="name" class="form-label" asp-for="Name">Name</label>
             <input  class="form-control" type="text" placeholder="Enter your name">
         </div>
         <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
+            <label for="email" class="form-label" asp-for="Email">Email</label>
             <input class="form-control" type="text" placeholder="Enter your email">
         </div>
         <div class="mb-3">
-            <label for="name" class="form-label">Phone</label>
+            <label for="name" class="form-label" asp-for="Phone">Phone</label>
             <input class="form-control" type="text" placeholder="Enter your phone">
         </div>
       
